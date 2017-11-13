@@ -3,14 +3,12 @@ package br.com.marcosatanaka.easypoi.excel;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static br.com.marcosatanaka.easypoi.util.ReflectionUtils.setField;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.Lists.newArrayList;
 
 public class Linha {
 
