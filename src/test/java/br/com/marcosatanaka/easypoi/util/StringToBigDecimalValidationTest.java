@@ -36,15 +36,19 @@ public class StringToBigDecimalValidationTest {
 				{"1", BigDecimal.ONE},
 				{"10", BigDecimal.TEN},
 				{"10,00", BigDecimal.TEN},
-				{"10,00", BigDecimal.TEN},
 				{"10.000,00", BigDecimal.valueOf(10_000)},
 				{"10000,00", BigDecimal.valueOf(10_000)},
 				{"R$ 1", BigDecimal.ONE},
 				{"R$ 10", BigDecimal.TEN},
 				{"R$ 10,00", BigDecimal.TEN},
-				{"R$ 10,00", BigDecimal.TEN},
 				{"R$ 10.000,00", BigDecimal.valueOf(10_000)},
 				{"R$ 10000,00", BigDecimal.valueOf(10_000)},
+				{ "10.00", BigDecimal.TEN },
+				{ "10000.00", BigDecimal.valueOf(10_000) },
+				{ "10000.00", BigDecimal.valueOf(10_000) },
+				{ "R$ 10.00", BigDecimal.TEN },
+				{ "R$ 10000.00", BigDecimal.valueOf(10_000) },
+				{ "R$ 10000.00", BigDecimal.valueOf(10_000) },
 		});
 	}
 

@@ -14,14 +14,23 @@ public class StringToBigDecimal {
 
 	private static final String NON_NUMERIC_EXCEPT_DOT_AND_COMMA = "[^0-9 .,]|(?<!\\d)[.,]|[.,](?!\\d)";
 
-	private static final DecimalFormat DECIMAL_FORMAT;
+	private static final DecimalFormat DECIMAL_FORMAT_WITH_GROUP_SEPARATOR;
+
+	private static final DecimalFormat DECIMAL_FORMAT_WITHOUT_GROUP_SEPARATOR;
+
+	private static final String GROUP_SEPARATOR_COMMA = ",";
 
 	static {
-		DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance(Locale.forLanguageTag("pt-BR"));
-		symbols.setGroupingSeparator('.');
-		symbols.setDecimalSeparator(',');
-		DECIMAL_FORMAT = new DecimalFormat("#,##0.0#", symbols);
-		DECIMAL_FORMAT.setParseBigDecimal(true);
+		DecimalFormatSymbols symbolsWithGroupSeparators = DecimalFormatSymbols.getInstance(Locale.forLanguageTag("pt-BR"));
+		symbolsWithGroupSeparators.setGroupingSeparator('.');
+		symbolsWithGroupSeparators.setDecimalSeparator(',');
+		DECIMAL_FORMAT_WITH_GROUP_SEPARATOR = new DecimalFormat("#,##0.0#", symbolsWithGroupSeparators);
+		DECIMAL_FORMAT_WITH_GROUP_SEPARATOR.setParseBigDecimal(true);
+
+		DecimalFormatSymbols symbolsWithoutGroupSeparators = DecimalFormatSymbols.getInstance(Locale.forLanguageTag("pt-BR"));
+		symbolsWithoutGroupSeparators.setDecimalSeparator('.');
+		DECIMAL_FORMAT_WITHOUT_GROUP_SEPARATOR = new DecimalFormat("#0.0#", symbolsWithoutGroupSeparators);
+		DECIMAL_FORMAT_WITHOUT_GROUP_SEPARATOR.setParseBigDecimal(true);
 	}
 
 	private StringToBigDecimal() {
@@ -34,7 +43,12 @@ public class StringToBigDecimal {
 		}
 
 		try {
-			return (BigDecimal) DECIMAL_FORMAT.parse(preparedValue);
+			if (preparedValue.contains(GROUP_SEPARATOR_COMMA)) {
+				return (BigDecimal) DECIMAL_FORMAT_WITH_GROUP_SEPARATOR.parse(preparedValue);
+			}
+			else {
+				return (BigDecimal) DECIMAL_FORMAT_WITHOUT_GROUP_SEPARATOR.parse(preparedValue);
+			}
 		}
 		catch (ParseException e) {
 			throw new StringToBigDecimalException(e);
